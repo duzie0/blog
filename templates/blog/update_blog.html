@@ -1,1 +1,63 @@
 {% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="col-md-2"></div>
+    <div class="col-md-6">
+        <div style="width: 400px;margin-left: 100px;">
+            <h3>
+            <img class="img-circle " style="width:40px;height:40px;" src="{{ img.url }}" alt="">
+            &nbsp;&nbsp;
+            {{ user }}的博客
+            </h3>
+
+            <hr/>
+        </div>
+        <div id="by_time" >
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>blog_id</th>
+                            <th>blog_title</th>
+                            <th>blog_summary</th>
+                            <th>created_at</th>
+                            <th>view_times</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for blog in blogs %}
+                            <tr>
+                                <td>{{ blog.id }}</td>
+                                <td>{{ blog.title }}</td>
+                                <td>{{ blog.summary }}</td>
+                                <td>{{ blog.created_at }}</td>
+                                <td>{{ blog.view_times }}</td>
+                                <td>
+                                    <a href="/blog/modify_blog/{{ blog.id }}/">
+                                        <input type="button" class="btn btn-info" value="修改">
+                                    </a>
+                                </td>
+                                <td>
+                                     <input type="button" onclick="del(this,id={{ blog.id }})" class="btn btn-danger" value="删除">
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        </div>
+
+    </div>
+    <div class="col-md-4"></div>
+{% endblock %}
+
+{% block my_script %}
+    <script>
+        function del(obj,id1=0) {
+            $.get('/blog/delete_blog/'+id1+'/',function (resp_data) {
+                $(obj).parent().parent().remove()
+
+            })
+        }
+    </script>
+{% endblock %}

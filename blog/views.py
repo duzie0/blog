@@ -113,11 +113,33 @@ def create_blog(request):
 
 @login_required
 def update_blog(request):
-    return HttpResponse('update')
+    u = request.session.get('username')
+    l = request.session.get('login_state')
+    user = User.objects.get(username=u)
+    img = user.img
+    info = {}
+    info['login_state'] = l
+    info['user'] = u
+    info['img'] = img
+    blogs1 = []
+    if request.method == 'GET':
+        blogs = Blog.objects.filter(author=user)
+        for blog in blogs:
+            blog.created_at = blog.created_at + datetime.timedelta(hours=8)
+            create_time = datetime.datetime.strftime(blog.created_at, '%Y-%m-%d  %H:%M')
+            blog.created_at = create_time
+            blogs1.append(blog)
+
+        info['blogs'] = blogs1
+        return render(request, 'blog/update_blog.html', info)
 
 @login_required
-def delete_blog(request):
-    return HttpResponse('ss')
+def delete_blog(request,pk):
+    if request.method == 'GET':
+        blog = Blog.objects.get(pk=pk)
+        blog.delete()
+        return HttpResponse('DELETE')
+
 
 
 @login_required
