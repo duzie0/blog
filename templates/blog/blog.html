@@ -1,0 +1,126 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{##}
+{#{% block style %}#}
+{#    <style>#}
+{#        .blog_format{#}
+{#            width:300px;#}
+{#            height:80px;#}
+{#            margin-left: 40px;#}
+            {#padding: 15px;#}
+{#        }#}
+{#        .blog_user{#}
+{#            width:300px;#}
+{#            height:30px;#}
+            {#margin: auto;#}
+            {#padding: 10px;#}
+{#        }#}
+{#        .blog_title{#}
+{#            width:300px;#}
+{#            height:20px;#}
+            {#margin: auto;#}
+            {#padding: 10px;#}
+{#        }#}
+{#        .blog_summary{#}
+{#            width:300px;#}
+{#            height:20px;#}
+            {#margin: auto;#}
+            {#padding: 10px;#}
+{#        }#}
+{#    </style>#}
+{#{% endblock %}#}
+
+{% block content %}
+    <div class="col-md-2">
+
+    </div>
+    <div style="width:400px;margin-left: 30px;" class="col-md-5 ">
+        <h3>
+            <img class="img-circle " style="width:40px;height:40px;" src="{{ img.url }}" alt="">
+            &nbsp;&nbsp;
+            {{ user }}的博客
+        </h3>
+        <div>
+            <div id="time" onclick="click_time(this)" class="btn btn-info">按更新时间排序</div>
+            <div id="times" onclick="click_times(this)" class="btn btn-info">按访问次数排序</div>
+        </div>
+        <hr>
+        <br>
+        <div id="by_time" style="display: none;">
+            {% for blog in blogs %}
+            <div class="blog_format">
+                <p >
+                    创建于{{ blog.created_at }} <br>
+                    访问次数：{{ blog.view_times }}次
+                </p>
+                <a href="/blog/blog_page/{{ blog.id }}/">
+                    <div class="btn btn-primary" style="width:300px;text-align:left;">
+                        标题：{{ blog.title }}
+                        <br>
+                        摘要：{{ blog.summary }}
+                    </div>
+                </a>
+                <br><br>
+            </div>
+            <hr>
+
+        {% endfor %}
+        </div>
+
+        <div id="by_times" style="display: none;">
+            {% for blog in blogs2 %}
+            <div class="blog_format">
+                <p >
+                    创建于{{ blog.created_at }} <br>
+                    访问次数：{{ blog.view_times }}次
+                </p>
+                <a href="/blog/blog_page/{{ blog.id }}/">
+                    <div class="btn btn-primary" style="width:300px;text-align:left;">
+                        标题：{{ blog.title }}
+                        <br>
+                        摘要：{{ blog.summary }}
+                    </div>
+                </a>
+                <br><br>
+            </div>
+            <hr>
+        {% endfor %}
+        </div>
+    </div>
+    <div style="width:400px;margin-left: 40px;" class="col-md-5">
+        <h3>
+            <img class="img-circle " style="width:40px;height:40px;" src="{{ img.url }}" alt="">
+            &nbsp;&nbsp;
+            {{ user }}创建了{{ num }}个博客
+        </h3>
+        <br>
+        <div style="width:300px;margin-left: 60px;">
+            <a href="{% url 'create_blog' %}">
+                <h5>创建新博客</h5>
+            </a>
+            <hr>
+            <a href="{% url 'update_blog' %}">
+                <h5>修改博客</h5>
+            </a>
+            <hr>
+            <a href="{% url 'create_blog' %}">
+                <h5>删除博客</h5>
+            </a>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block my_script %}
+    <script>
+        window.onload = click_time($('#time'));
+        function click_time(obj) {
+            $('#by_time').removeAttr('style');
+            $('#by_times').attr('style','display:none;')
+        }
+        function click_times(obj) {
+            $('#by_times').removeAttr('style');
+            $('#by_time').attr('style','display:none;')
+        }
+    </script>
+{% endblock %}

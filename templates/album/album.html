@@ -1,0 +1,20 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+<a href="{% url 'create_album' %}">创建相册</a>
+<table class="table" width="100" cellspacing="5" cellpadding="5" border="1">
+
+    <tr> 
+        {% for photo in photos %}
+        <td>
+                    <img src="{{ album.img.url }}" width="240" height="240"></img><br>
+        </td>
+        {% if forloop.counter|divisibleby:4 %}
+    </tr>
+    {% endif %}
+    {% endfor %}
+    </tr>
+</table>
+
+{% endblock %}

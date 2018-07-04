@@ -1,0 +1,52 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="col-md-1">
+
+    </div>
+    <div style="width:400px;margin-left: 50px;" class="col-md-5 ">
+        <h3>
+            <img class="img-circle " style="width:40px;height:40px;" src="{{ img.url }}" alt="">
+            &nbsp;&nbsp;
+            {{ user }}的博客
+        </h3>
+        <hr>
+        <br>
+        <div style="width:300px;margin-left: 60px;">
+            <h4>
+                标题：{{ blog.title }}
+            </h4>
+            访问次数：{{ blog.view_times }}次
+            <hr>
+            创建于{{ blog.created_at }}
+            <h5>摘要：{{ blog.summary }}</h5>
+            <hr>
+            <h5>内容：<br><br>{{ blog.content }}</h5>
+            <br><br>
+        </div>
+        <hr>
+    </div>
+    <div style="width:400px;margin-left: 40px;" class="col-md-5">
+        <h3>
+            <img class="img-circle " style="width:40px;height:40px;" src="{{ img.url }}" alt="">
+            &nbsp;&nbsp;
+            这是{{ user }}创建的第{{ blog.id }}个博客
+        </h3>
+        <br>
+        <div style="width:300px;margin-left: 60px;">
+            <a href="{% url 'create_blog' %}">
+                <h5>创建新博客</h5>
+            </a>
+            <hr>
+            <a href="{% url 'update_blog' %}">
+                <h5>修改该博客</h5>
+            </a>
+            <hr>
+            <a href="{% url 'create_blog' %}">
+                <h5>删除博客</h5>
+            </a>
+        </div>
+    </div>
+
+{% endblock %}

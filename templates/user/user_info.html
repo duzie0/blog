@@ -1,0 +1,64 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+    个人信息
+{% endblock %}
+
+{% block content %}
+    <br>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-4" >
+        <form  class="form-horizontal" role="form">
+            <div class="form-group">
+                    <label class="form-label">用户名：</label>
+                    <input type="text" class="form-control"  disabled="true"
+                           value="{{ user }}" name="username">
+            </div>
+            <div class="form-group">
+                    <label class="form-label">手机号码：</label>
+                    <input type="text" class="form-control"  disabled="true" value="{{ tel }}" name="username">
+            </div>
+            <div class="form-group">
+                    <label class="form-label">年龄：</label>
+                    <input type="text" class="form-control" disabled="true" value="{{ age }}"  name="age">
+            </div>
+            <div class="form-group">
+                    <label class="form-label">邮箱：</label>
+                    <input type="text" class="form-control" disabled="true" value="{{ email }}"  name="email">
+            </div>
+            <br>
+            <div class="form-group">
+                <a href="{% url 'update_user_info' %}">
+                    <input type="button" class="btn btn-success"   value="修改信息" name="update">
+                </a>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-4">
+        <br><br>
+        <div class="form-group">
+                    <label class="form-label">性别：</label>
+{#                    <input type="radio" class="form-control" disabled="true" value="{{ sex }}" >#}
+                    {% if sex %}
+                        男
+                    {% else %}
+                        女
+                    {% endif %}
+        </div>
+        <br>
+        <div class="form-group">
+            <label class="form-label">头像：</label>
+                <img class="img-circle img-thumbnail" style="width: 100px;height:100px;" src="{{ img.url }}" alt="">
+        </div>
+    </div>
+     <div class="col-md-1">
+    </div>
+{% endblock %}
+
+{% block my_script %}
+    <script>
+    
+    </script>
+{% endblock %}

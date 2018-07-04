@@ -1,0 +1,120 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+    修改信息
+{% endblock %}
+
+{% block style %}
+    <style>
+
+        .fileinput-button {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        .fileinput-button input{
+            position:absolute;
+            right: 0px;
+            top: 0px;
+            opacity: 0;
+            -ms-filter: 'alpha(opacity=0)';
+            font-size: 200px;
+        }
+
+    </style>
+{% endblock %}
+{% block content %}
+    <br>
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+    <div class="form-group" style="text-align: left;">
+        {% if msg %}
+            <center>
+                 <span id="message">
+                    <p class="text-success">{{ msg }} </p>
+                 </span>
+            </center>
+        {% endif %}
+    </div>
+        <form action="{% url 'update_user_info' %}"  class="form-horizontal" role="form"
+              method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon2" style="width:120px;text-align: right;">
+                    用户名：
+                </span>
+                <input type="text" class="form-control" disabled="true" value="{{ user }}" name="username" aria-describedby="sizing-addon2">
+            </div>
+            <br>
+            <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon2" style="width:120px;text-align: right;">
+                    手机号码：
+                </span>
+                <input type="text" class="form-control" value="{{ tel }}" name="tel" aria-describedby="sizing-addon2">
+            </div>
+            <br>
+            <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon2" style="width:120px;text-align: right;">
+                    邮箱：
+                </span>
+                <input type="text" class="form-control" value="{{ email }}" name="email" aria-describedby="sizing-addon2">
+            </div>
+            <br>
+            <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon2" style="width:120px;text-align: right;">
+                    年龄：
+                </span>
+                <input type="text" class="form-control" value="{{ age }}" name="age" aria-describedby="sizing-addon2">
+            </div>
+            <br>
+            <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon2" style="width:120px;text-align: right;">
+                    性别：
+                </span>&nbsp;
+                <div style="width:200px;height:30px;text-align: center;line-height: 30px;">
+
+                {% if sex %}
+                    <select name="sex" id="">
+                        <option value="1">男</option>
+                        <option value="0">女</option>
+                    </select>
+                {% else %}
+                    <select name="sex" id="">
+                        <option value="0">女</option>
+                        <option value="1">男</option>
+                    </select>
+                {% endif %}
+                </div>
+            </div>
+            <br>
+
+            <div class="form-group">
+                    <label class="form-label">头像：</label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <img class="img-circle img-thumbnail" style="width:100px;height:100px;" src="{{ img.url }}" alt="">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="btn btn-success fileinput-button">
+                         <span>更换头像</span>
+                         <input type="file" name="img">
+                    </span>
+            </div>
+            <br>
+            <div class="form-group">
+{#                    <label class="form-label">保存</label>#}
+                    <input type="submit" class="btn btn-success"   value="保存" name="save">
+{#                    <label class="form-label">取消</label>#}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="submit" class="btn btn-danger"  value="取消" name="save">
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4">
+    </div>
+{% endblock %}
+
+{% block my_script %}
+    <script>
+
+    </script>
+{% endblock %}

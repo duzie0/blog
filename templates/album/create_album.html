@@ -1,0 +1,43 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="col-md-3">
+    </div>
+
+<div style="width: 400px; margin-left: 50px;" class="col-md-6">
+    <br>
+<div>
+   {% if msg %}
+        <center>
+            <span id="message">
+                    <p class="text-success">{{ msg }} </p>
+            </span>
+        </center>
+    {% endif %}
+</div>
+    <h3>添加相册</h3><hr>
+
+        <form method="post" action="{% url 'create_album' %}" enctype="multipart/form-data">{% csrf_token %}
+          <fieldset class="form-group">
+                <label for="title">标题</label>
+                <input type="text" class="form-control" name="title" placeholder="请输入相册的标题">
+          </fieldset>
+          <fieldset class="form-group">
+                <label for="description">描述</label>
+                <textarea class="form-control" name="description" rows="3"></textarea>
+          </fieldset>
+          <fieldset class="form-group">
+                <label for="image">选择封面</label>
+                <input type="file" class="form-control-file" name="img">
+                <small class="text-muted"></small>
+          </fieldset>
+                <button type="submit" class="btn btn-primary">提交</button>
+        </form>
+
+</div>
+
+<div class="col-md-3">
+    </div>
+{% endblock %}

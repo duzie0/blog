@@ -1,0 +1,83 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}
+    注册
+{% endblock %}
+{% block content %}
+
+    <br/><br/>
+
+    <div class="col-md-4">
+    </div>
+
+    <div class="col-md-4">
+
+        <div>
+            <form action="{% url 'register' %}" method="post">
+                <div class="form-group">
+                    {% if msg %}
+                        <center>
+                             <span id="message">
+                                <p class="text-success">{{ msg }} </p>
+                             </span>
+                        </center>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">用户名：</label>
+                    <input type="text" class="form-control"  placeholder="用户名" name="username">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">密 码：</label>
+                    <input type="password" class="form-control"  placeholder="密码"
+                           name="password">
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputPassword1">重复密码：</label>
+                    <input type="password" class="form-control"  placeholder="重复密码"
+                           name="repassword">
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">输入验证码：</label>
+                    <input type="text" class="form-control"  placeholder="输入验证码"
+                           name="str_code1">
+                    <input id="str_code" type="hidden" value="" name="str_code2">
+                    <br>
+                    <img id="base64" onclick="change_code(this)" src="" alt="">
+                </div>
+
+
+                <button type="submit" class="btn btn-info">点击注册</button>
+                {% csrf_token %}
+            </form>
+
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+    </div>
+    <div style="width: 100%;height:400px;"></div>
+
+{% endblock %}
+{% block my_script %}
+    <script>
+        window.onload = change_code($('#base64'));
+        function change_code(obj) {
+            $(obj).removeAttr('src');
+             $.get('/get_code/',function (resp_date) {
+
+                console.log(resp_date);
+                 var date = JSON.parse(resp_date);
+                 var base64code = date.base64_code.slice(2,-1);
+                $(obj).attr('src',"data:image/jpeg;base64," + base64code);
+                $('#str_code').attr('value',date.str_code)
+            }
+
+        );
+        }
+    </script>
+{% endblock %}
