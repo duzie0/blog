@@ -113,4 +113,51 @@ def create_blog(request):
 
 @login_required
 def update_blog(request):
-    return HttpResponse('update')
+    return HttpResponse('ss')
+
+@login_required
+def delete_blog(request):
+    return HttpResponse('ss')
+
+
+@login_required
+def modify_blog(request,pk):
+    u = request.session.get('username')
+    l = request.session.get('login_state')
+    user = User.objects.get(username=u)
+    blog1 = Blog.objects.get(pk=pk)
+    img = user.img
+    info = {}
+    info['login_state'] = l
+    info['user'] = u
+    info['img'] = img
+
+    info['blog'] = blog1
+    if request.method == 'GET':
+        info['msg'] = '欢迎修改博客！'
+        return render(request, 'blog/modify_blog.html', info)
+    elif request.method == 'POST':
+
+        data = request.POST
+        submit = data.get('submit')
+
+
+        summary = data.get('summary')
+        content = data.get('content')
+        print('aaaaaaaaaa',content)
+        if submit == '取消':
+            return redirect(blog)
+        error = ''
+        if not (summary or error):
+            error = '摘要不能为空！'
+        if not (content or error):
+            error = '内容不能为空！'
+        if error:
+            info['msg'] = error
+            return render(request, 'blog/modify_blog.html', info)
+
+        blog1.summary = summary
+        blog1.content = content
+        blog1.save()
+        info['msg'] = '修改成功！'
+        return render(request, 'blog/modify_blog.html', info)
