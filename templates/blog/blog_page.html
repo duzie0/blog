@@ -6,11 +6,21 @@
 
     </div>
     <div style="width:400px;margin-left: 50px;" class="col-md-5 ">
-        <h3>
-            <img class="img-circle " style="width:40px;height:40px;" src="{{ img.url }}" alt="">
-            &nbsp;&nbsp;
-            {{ user }}的博客
-        </h3>
+
+        {% if blog_author_id == user_id %}
+
+            <h3>
+                <img class="img-circle " style="width:40px;height:40px;" src="{{ img.url }}" alt="">
+                &nbsp;&nbsp;
+                {{ user }}的博客
+            </h3>
+        {% else %}
+            <h3>
+                <img class="img-circle " style="width:40px;height:40px;" src="{{ blog.author.img.url }}" alt="">
+                &nbsp;&nbsp;
+                {{ blog.author.username }}的博客
+            </h3>
+        {% endif %}
         <hr>
         <br>
         <div style="width:300px;margin-left: 60px;">
@@ -27,11 +37,12 @@
         </div>
         <hr>
     </div>
-    <div style="width:400px;margin-left: 40px;" class="col-md-5">
+    {% if blog_author_id == user_id %}
+        <div style="width:400px;margin-left: 40px;" class="col-md-5">
         <h3>
             <img class="img-circle " style="width:40px;height:40px;" src="{{ img.url }}" alt="">
             &nbsp;&nbsp;
-            这是{{ user }}创建的第{{ blog.id }}个博客
+            这是你创建的第{{ blog.id }}个博客
         </h3>
         <br>
         <div style="width:300px;margin-left: 60px;">
@@ -46,5 +57,8 @@
 
         </div>
     </div>
+    {% else %}
+        <div class="col-md-4"></div>
+    {% endif %}
 
 {% endblock %}

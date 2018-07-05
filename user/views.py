@@ -1,8 +1,10 @@
+import datetime
 import json,os
 
 from django.shortcuts import render,redirect,reverse
 from django.http import HttpResponse,response
 from user.models import User
+from blog.models import Blog
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.hashers import make_password,check_password
 from Django.my_decorator import login_required
@@ -25,14 +27,48 @@ def home(request):
     l = request.session.get('login_state')
     u = request.session.get('username')
     info = {}
+
+    #显示登陆用户的信息
     info['login_state'] = l
     info['user'] = u
     try:
         user = User.objects.get(username=u)
     except:
-        return render(request, 'layouts/base.html', info)
-    info['img'] = user.img
-    return render(request,'layouts/base.html',info)
+        user = {}
+
+    if user:
+        info['img'] = user.img
+
+
+    #向主页传递的blogs信息
+    #更新时间排序列表
+    blogs1 = []
+    #访问次数排序列表
+    blogs2 = []
+    list = {}
+    blogs = Blog.objects.all()
+    for blog in blogs[::-1]:
+        blog.created_at = blog.created_at + datetime.timedelta(hours=8)
+        create_time = datetime.datetime.strftime(blog.created_at, '%Y-%m-%d  %H:%M')
+        blog.created_at = create_time
+        blogs1.append(blog)
+        s = ''
+        s = str(blog.id)
+        list[s] = blog.view_times
+
+    list = dict(sorted(list.items(), key=lambda x: x[1], reverse=True))
+    for k, v in list.items():
+        for b in blogs:
+            if int(k) == b.id:
+                b.created_at = b.created_at + datetime.timedelta(hours=8)
+                create_time = datetime.datetime.strftime(b.created_at, '%Y-%m-%d  %H:%M')
+                b.created_at = create_time
+                blogs2.append(b)
+    info['blogs1'] = blogs1
+    info['blogs2'] = blogs2
+    return render(request,'layouts/home.html',info)
+
+
 #注册
 def register(request):
 
@@ -105,10 +141,7 @@ def login(request):
             request.session['user_id'] = user.id
             # request.session['img'] = user.img
             request.session.set_expiry(6000)
-            return render(request, 'layouts/base.html',
-                          context={'user': user.username,
-                                   'img':user.img,
-                                   'login_state': login_state})
+            return redirect(home)
         else:
             msg = "密码错误!"
             return render(request, 'user/login.html', {"msg": msg})

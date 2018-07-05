@@ -50,21 +50,28 @@ def blog(request):
 
         return  render(request,'blog/blog.html',info)
 
-@login_required
+
 def blog_page(request,pk):
     u = request.session.get('username')
     l = request.session.get('login_state')
-    user = User.objects.get(username=u)
-    img = user.img
+    try:
+        user = User.objects.get(username=u)
+    except:
+        user = {}
     info = {}
     info['login_state'] = l
     info['user'] = u
-    info['img'] = img
+    if user:
+        info['img'] = user.img
     if request.method == 'GET':
         blog = Blog.objects.get(pk=pk)
         blog.view_times = blog.view_times + 1
         info['blog'] = blog
         blog.save()
+        info['blog_author_id'] = blog.author.id
+        if user:
+            info['user_id'] = user.id
+        # print('aaaaaaaaaaaaaaaaaaaaa',blog.author.id,user.id)
         blog.created_at = blog.created_at + datetime.timedelta(hours=8)
         create_time = datetime.datetime.strftime(blog.created_at, '%Y-%m-%d  %H:%M')
         blog.created_at = create_time
