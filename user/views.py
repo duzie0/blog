@@ -66,7 +66,7 @@ def home(request):
                 blogs2.append(b)
     info['blogs1'] = blogs1
     info['blogs2'] = blogs2
-    return render(request,'layouts/home.html',info)
+    return render(request,'layouts/home1.html',info)
 
 
 #注册

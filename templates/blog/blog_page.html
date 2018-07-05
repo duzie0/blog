@@ -2,9 +2,8 @@
 {% load static %}
 
 {% block content %}
-    <div class="col-md-1">
+    <div class="col-md-1"></div>
 
-    </div>
     <div style="width:400px;margin-left: 50px;" class="col-md-5 ">
 
         {% if blog_author_id == user_id %}
@@ -36,29 +35,46 @@
             <br><br>
         </div>
         <hr>
-    </div>
-    {% if blog_author_id == user_id %}
-        <div style="width:400px;margin-left: 40px;" class="col-md-5">
-        <h3>
-            <img class="img-circle " style="width:40px;height:40px;" src="{{ img.url }}" alt="">
-            &nbsp;&nbsp;
-            这是你创建的第{{ blog.id }}个博客
-        </h3>
-        <br>
-        <div style="width:300px;margin-left: 60px;">
-            <a href="{% url 'create_blog' %}">
-                <h5>创建新博客</h5>
-            </a>
-            <hr>
-            <a href="/blog/modify_blog/{{ blog.id }}/">
-                <h5>修改该博客</h5>
-            </a>
-            <hr>
-
+        <div>
+            <h4>发表评论</h4>
+            <div style="width:300px;height:20px;"></div>
+            <textarea  name="content" rows="4" placeholder="请输入评论的内容"></textarea>
         </div>
     </div>
-    {% else %}
-        <div class="col-md-4"></div>
-    {% endif %}
+
+    <div style="width:300px;margin-left: 40px;" class="col-md-5">
+        {% if blog_author_id == user_id %}
+
+            <h3>
+                <img class="img-circle " style="width:40px;height:40px;" src="{{ img.url }}" alt="">
+                &nbsp;&nbsp;
+                这是你创建的第{{ blog.id }}个博客
+            </h3>
+            <br>
+            <div style="width:300px;margin-left: 60px;">
+                <a href="{% url 'create_blog' %}">
+                    <h5>创建新博客</h5>
+                </a>
+                <hr>
+                <a href="/blog/modify_blog/{{ blog.id }}/">
+                    <h5>修改该博客</h5>
+                </a>
+                <hr>
+
+            </div>
+
+        {% else %}
+            <div></div>
+        {% endif %}
+        <div>
+            <h4>精彩评论</h4>
+            <hr>
+            {% for reply in replies %}
+                {{ reply.author.username }}发表于：{{ reply.created_at }} {{ reply.view_times }}
+                {{ reply.content }}
+            {% endfor %}
+            <hr>
+        </div>
+    </div>
 
 {% endblock %}

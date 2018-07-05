@@ -1,0 +1,62 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="col-md-2">
+
+    </div>
+
+    <div class="col-md-8 ">
+        <br>
+     <div style="height:530px;width: 650px;margin-left: 20px;">
+         <div style="height:500px;width: 300px;float: left;">
+            <img class="img-responsive" src="media/photos/album/2.PNG/" alt="">
+
+        </div>
+        <div style="height:500px;width: 300px;float: right;">
+            <img class="img-responsive" src="media/photos/album/1.PNG/" alt="">
+        </div>
+     </div>
+        <hr>
+    <div style="height:680px;width: 650px; margin-left: 20px;">
+         <div >
+            <img style="height:300px;width: 650px;" class="img-responsive" src="media/photos/album/4.JPG/" alt="">
+
+        </div>
+            <div style="width: 600px;height:15px;"></div>
+            <hr>
+            <div style="width: 600px;height:15px;"></div>
+        <div >
+            <img style="height:300px;width: 650px;" class="img-responsive" src="media/photos/album/3.jpg/" alt="">
+        </div>
+     </div>
+        <hr>
+    <div style="height:400px;width: 650px; margin-left: 70px;">
+        <video style="height:300px;width: 535px;"
+               preload="metadata"
+               src="media/photos/album/5.MOV",
+
+               controls="controls">
+            <source src="media/photos/album/4.JPG"/>
+        </video>
+    </div>
+
+    </div>
+
+    <div  class="col-md-2"></div>
+
+{% endblock %}
+
+{% block my_script %}
+    <script>
+        window.onload = click_time($('#time'));
+        function click_time(obj) {
+            $('#by_time').removeAttr('style');
+            $('#by_times').attr('style','display:none;')
+        }
+        function click_times(obj) {
+            $('#by_times').removeAttr('style');
+            $('#by_time').attr('style','display:none;')
+        }
+    </script>
+{% endblock %}
